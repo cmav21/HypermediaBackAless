@@ -1,6 +1,6 @@
 import mongodb from "mongodb";
 
-export async function connect(){
+async function connect(){
     try{
         const client = await mongodb.connect("mongodb://localhost:27017", {
             useNewUrlParser: true,
@@ -12,3 +12,5 @@ export async function connect(){
         console.log(e)
     }
 }
+
+export default connect;
