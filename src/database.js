@@ -1,4 +1,4 @@
-import mongodb from "mongodb";
+const mongodb = require("mongodb");
 
 async function connect(){
     try{
@@ -9,8 +9,8 @@ async function connect(){
         const db = client.db("hipermedia");
         return db;
     } catch(e){
-        console.log(e)
+        console.log(e);
     }
 }
 
-export default connect;
+module.exports = connect;

@@ -1,5 +1,4 @@
-import '@babel/polyfill';
-import app from './server';
+const app = require('./src/server');
 
 async function main(){
    await app.listen(app.get('port'));

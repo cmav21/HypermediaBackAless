@@ -1,6 +1,7 @@
-import { Router } from 'express';
-import connect from "../database";
-import { ObjectID } from "mongodb";
+// import { Router } from 'express';
+const { Router } = require("express");
+const connect = require('../database');
+const { ObjectID } = require("mongodb");
 
 const router = Router();
 
@@ -42,4 +43,4 @@ router.delete('/:id', async(req, res) => {
     });
 });
 
-export default router;
+module.exports = router;
