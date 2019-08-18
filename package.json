@@ -4,7 +4,7 @@
   "description": "Actividad restfull API para la clase de Hypermedia",
   "main": "app.js",
   "scripts": {
-    "start": "cd WebServer && node server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
