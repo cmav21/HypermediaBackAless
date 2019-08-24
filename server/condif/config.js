@@ -1,4 +1,3 @@
-import { get } from "https";
 
 process.env.PORT = process.env.PORT || 3000;
 
@@ -11,6 +10,6 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 //              :get
 //              :unset
 
-let urlDB = process.env.NODE_ENV === 'dev' ? "mongodb://localhost:27017/cafe" : "mongodb://cesar:password1@ds031903.mlab.com:31903/cafeudemy";
+let urlDB = process.env.NODE_ENV === 'dev' ? "mongodb://localhost:27017/cafe" : process.env.MONGO_URI;
 
 process.env.URLDB = urlDB;
