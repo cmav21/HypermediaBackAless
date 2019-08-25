@@ -3,6 +3,7 @@ const uniqueValidator = require("mongoose-unique-validator");
 //obtenermos el cascaron para crear schemas de mongoose
 let Schema = mongoose.Schema;
 
+//Se indica el conjunto de roles que unicamente son validos
 let rolesValidos = {
     values: ['ADMIN_ROLE', 'USER_ROLE'],
     //Value es el valor de lo que incresa el usuario
@@ -46,6 +47,7 @@ let usuarioSchema = new Schema({
     }
 });
 
+//Esto se realiza para no regresar la contraseña al momento de consultar los registros
 usuarioSchema.methods.toJSON = function () {
     let user = this;
     let userObject = user.toObject();
@@ -53,13 +55,16 @@ usuarioSchema.methods.toJSON = function () {
     return userObject;
 }
 
+//Esto es para validar que el email sea unico
 //Se indica al schema que use un plugin
 usuarioSchema.plugin(uniqueValidator, {
+    //Mensaje de error, el path sera sustituido
     message: '{PATH} debe de ser unico'
 })
 
 //Asi se exporta el schema de la base de datos
 let m = mongoose.model('usuario', usuarioSchema);
 
+// Se crea el modelo y se exporta
 module.exports = mongoose.model('Usuario', usuarioSchema);
 

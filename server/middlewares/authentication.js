@@ -25,6 +25,25 @@ const verificarToken = (req, res, next) => {
     });
 };
 
+//Verifica token pra imagen
+
+let verificaTokenImg = (req, res, next) => {
+    let token = req.query.token;
+    
+    jwt.verify(token, process.env.SECRET_SEED, (err, decoded) => {
+        if(err) {
+            return res.status(401).json({
+                ok: false,
+                error: {
+                    message: "Token no valido"
+                }
+            });
+        }
+        next();
+    })
+}
+
+//verifica el rol del usuario
 let verificaAdminRol = (req, res, next) => {
     const token = req.get('token');
 
@@ -43,9 +62,11 @@ let verificaAdminRol = (req, res, next) => {
     })
 }
 
+//Exporta la funciones por medio de un objeto
 module.exports = {
     verificarToken,
-    verificaAdminRol
+    verificaAdminRol,
+    verificaTokenImg
 };
 
 

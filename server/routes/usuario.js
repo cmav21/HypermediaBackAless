@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+//uundescore se indica con un _
 const _ = require("underscore");
 const Usuario = require('../models/usuario');
 const app = express();
@@ -15,6 +16,8 @@ app.get('/usuario', verificarToken ,(req, res)=>{
     let limite = Number(req.query.limite) || 5;
 
     Usuario.find({estado: true}, 'nombre email role estado google img')
+    // skip se salta cierta cantidad de elementos
+    // limit indica cuantos elementos traera
         .skip(desde)
         .limit(limite)
         .exec((err, usuarios) => {
@@ -68,6 +71,7 @@ app.post('/usuario', [verificarToken, verificaAdminRol] ,(req, res)=>{
 
 app.put('/usuario/:id', [verificarToken, verificaAdminRol] ,(req, res)=>{
     let id = req.params.id;
+    //Underscore indica que datos tomara del body
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
     // res.json(body);
     // funcion de mongoose para obtener un usuario de la db
