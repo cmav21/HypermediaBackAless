@@ -3,9 +3,14 @@ const bcrypt = require("bcrypt");
 const _ = require("underscore");
 const Usuario = require('../models/usuario');
 const app = express();
+const { verificarToken, verificaAdminRol } = require('../middlewares/authentication');
 
-app.get('/usuario', (req, res)=>{
+app.get('/usuario', verificarToken ,(req, res)=>{
     
+    // return res.json({
+    //     usuario: req.usuario
+    // });
+
     let desde = Number(req.query.desde) || 0;
     let limite = Number(req.query.limite) || 5;
 
@@ -31,7 +36,8 @@ app.get('/usuario', (req, res)=>{
         });
 });
 
-app.post('/usuario', (req, res)=>{
+//Para agregar mas de dos middlewares es entre corchetes
+app.post('/usuario', [verificarToken, verificaAdminRol] ,(req, res)=>{
     let body = req.body;
 
     //Crea una nueva instancia del usuario schema, pero se pueden pasar los parametros deseados
@@ -40,7 +46,7 @@ app.post('/usuario', (req, res)=>{
         email: body.email,
         //Esta funcion hace el hash de forma sincrona sin callbacks, etc, y el numero de vueltas al hash
         password: bcrypt.hashSync(body.password, 10),
-        role: body.rol
+        rol: body.rol
     });
 
     //Guardar registro en db, recibes un error o bien el usuario guardado
@@ -60,7 +66,7 @@ app.post('/usuario', (req, res)=>{
     })
 });
 
-app.put('/usuario/:id', (req, res)=>{
+app.put('/usuario/:id', [verificarToken, verificaAdminRol] ,(req, res)=>{
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
     // res.json(body);
@@ -81,7 +87,7 @@ app.put('/usuario/:id', (req, res)=>{
     });
 });
 
-app.delete('/usuario/:id', (req, res)=>{
+app.delete('/usuario/:id', [verificarToken, verificaAdminRol] ,(req, res)=>{
     
     let id = req.params.id;
 

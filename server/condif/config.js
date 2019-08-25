@@ -13,3 +13,17 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 let urlDB = process.env.NODE_ENV === 'dev' ? "mongodb://localhost:27017/cafe" : process.env.MONGO_URI;
 
 process.env.URLDB = urlDB;
+
+
+//vencimiento token
+//60 segundos
+// 60 minutos
+//  24 horas
+// 30 dias
+
+process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30;
+
+
+//seed token
+
+process.env.SECRET_SEED = process.env.SECRET_SEED || 'secretSeed';
