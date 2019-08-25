@@ -1,33 +1,31 @@
-require('./condif/config');
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const app = express();
+const express = require('express');
+
+const sockerIO = require("socket.io");
+
 const path = require('path');
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
- 
-// parse application/json
-app.use(bodyParser.json())
 
-//habilitar carpeta public
+const app = express();
 
-app.use(express.static(`${__dirname}/../public`));
+const http = require("http");
 
-//el poath obtiene el path que se busca
-console.log(path.resolve(__dirname, '../public'));
-// app.use(express.json());
-app.use(require('./routes/index'));
+const publicPath = path.resolve(__dirname, '../public');
+const port = process.env.PORT || 3000;
 
-mongoose.connect(process.env.URLDB,{
-    useNewUrlParser: true,
-    useCreateIndex:true,
-    useFindAndModify: false
-} ,(err, res) => {
-    if(err) throw err;
-    console.log("Base de datos online");    
-});
+let server = http.createServer(app);
 
-app.listen(process.env.PORT, ()=>{
-    console.log(`Escuchando el puerto ${process.env.PORT}`);
+
+app.use(express.static(publicPath));
+
+module.exports.io = sockerIO(server);
+
+require('./sockets/socket');
+
+//IO = mantiene conexion direacta con el servidor
+
+server.listen(port, (err) => {
+
+    if (err) throw new Error(err);
+
+    console.log(`Servidor corriendo en puerto ${ port }`);
+
 });
